@@ -1,7 +1,7 @@
 // TODO: Include packages needed for this application
-const fs = require('fs');
 const inquirer = require('inquirer');
-const generateMarkdown = require('.../utils/generateMarkdowwn');
+const fs = require('fs');
+const generateMarkdown = require('./utils/generateMarkdown');
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -17,56 +17,72 @@ const questions = [
         },
         {
             type: 'input',
-            name: 'additional questions',
+            name: 'email',
+            message: 'What is your email?',
+        },
+        {
+            type: 'input',
+            name: 'question',
             message: 'How can we reach out to you with additional questions?',
         },
         {
             type: 'input',
-            name: 'Title of Project',
+            name: 'title',
             message: 'What is your project called?',
         },
         {
             type: 'input',
-            name: 'Description',
+            name: 'description',
             message: 'Please describe your project',
         },
         {
             type: 'input',
-            name: 'Installation instructions',
+            name: 'installation',
             message: 'Please add installing instructions if any',
         },
         {
             type: 'input',
-            name: 'Usage information',
+            name: 'usage',
             message: 'Please input any usage info if any',
         },
         {
             type: 'input',
-            name: 'Contribution guidelines',
+            name: 'contributors',
             message: 'Please add who contributed to this project if any!',
         },
         {
             type: 'input',
-            name: 'Test instructions',
+            name: 'testing',
             message: 'How should we test run your project?',
         },
         {
-            type: 'input',
-            name: 'License type',
+            type: 'list',
+            name: 'license',
             message: 'Which license are you using?',
+            choices: [
+                "None", "Apache 2.0", "MIT"
+            ]
         },
 ];
 
-
 // // TODO: Create a function to write README file
-// function writeToFile(fileName, data) {
-
-// }
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(questions).then(response => console.log(response))
+    inquirer
+    .prompt(questions)
+    .then(function(response) {
+        console.log(response);
+        console.log(generateMarkdown(response))
+    
+    let newFile = generateMarkdown(response);
+
+    fs.writeFile("./here/README.md", newFile, (err) =>
+    err ? console.log(err) : console.log("CONGRATS! Your README file has been created. Check it out in the here folder.")
+    )
+});
 };
+
 // Function call to initialize app
 init();
 
